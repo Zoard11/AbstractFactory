@@ -1,10 +1,11 @@
 package game;
 
 import java.awt.Graphics;
+import java.io.IOException;
 
 public abstract class AbstractPersonFactory {
-    abstract void setShirt1();
-    abstract void setShirt2();
+    abstract void createPhone() throws IOException;
+    abstract void createDrink() throws IOException;
 
     abstract void setBaseOutfit();
 

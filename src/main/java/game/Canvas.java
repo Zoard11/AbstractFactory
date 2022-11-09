@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class Canvas extends JPanel {
     private BufferedImage image ;
@@ -78,7 +79,11 @@ public class Canvas extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                factory.setShirt1();
+                try {
+                    factory.createPhone();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 repaint();
             }
 
@@ -87,7 +92,11 @@ public class Canvas extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                factory.setShirt2();
+                try {
+                    factory.createDrink();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 repaint();
             }
 

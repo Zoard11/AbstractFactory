@@ -15,9 +15,9 @@ public class BoyFactory extends AbstractPersonFactory {
     protected int y = 0;
     protected BufferedImage image ;
     protected BufferedImage withoutArm ;
-    protected BufferedImage tShirtImage ;
-    protected BufferedImage tShirtImage1 ;
-    protected BufferedImage tShirtImage2 ;
+
+    protected DrinkAccessory drinkAccessory = null;
+    protected PhoneAccessory phoneAccessory = null ;
 
     public BoyFactory(){
         try {
@@ -25,11 +25,6 @@ public class BoyFactory extends AbstractPersonFactory {
             image=resizeImage(image,300,500);
             withoutArm = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/boy-without-arm.jpg")));
             withoutArm=resizeImage(withoutArm,300,500);
-            tShirtImage1 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/boy-tshirt1.png")));
-            tShirtImage1=resizeImage(tShirtImage1,300,200);
-            tShirtImage2 = ImageIO.read(Objects.requireNonNull(getClass().getResource("/images/boy-tshirt2.png")));
-            tShirtImage2=resizeImage(tShirtImage2,300,200);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,25 +52,33 @@ public class BoyFactory extends AbstractPersonFactory {
 
 
     @Override
-    void setShirt1() {
-        tShirtImage=tShirtImage1;
+    void createPhone() throws IOException {
+        phoneAccessory = new BoyWithPhone();
+        drinkAccessory = null;
     }
 
     @Override
-    void setShirt2() {
-        tShirtImage=tShirtImage2;
+    void createDrink() throws IOException {
+        drinkAccessory = new BoyWithDrink();
+        phoneAccessory = null;
     }
 
     @Override
     void setBaseOutfit() {
-        tShirtImage=null;
+        drinkAccessory = null;
+        phoneAccessory = null;
     }
 
     public void draw(Graphics g){
         g.drawImage(image , this .x , this .y , null );
-        if(tShirtImage != null) {
+
+        if(drinkAccessory != null || phoneAccessory != null) {
             g.drawImage(withoutArm , this .x , this .y , null );
-            g.drawImage(tShirtImage, 74, 77, null);
+            if(drinkAccessory != null) {
+                drinkAccessory.draw(g);
+            } else {
+                phoneAccessory.draw(g);
+            }
         } else {
             g.drawImage(image , this .x , this .y , null );
         }
